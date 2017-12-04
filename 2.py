@@ -23,5 +23,38 @@ def checksum_generator(input_list):
 
     print(sumR)
 
+#checksum_generator(inDigits)
 
-checksum_generator(inDigits)
+
+def checksum_generator2(input_list):
+    sumList = []
+    sumR = 0
+    s = 16
+
+    while s <= len(input_list):
+        row = []
+        for x in range(s-16, s):
+            row.append(input_list[x])
+        s += 16
+
+        for i in range(len(row)):
+            counter = 0
+            for n in row:
+                if row[i]%n == 0 and row[i]/n > 1:
+                    #print("1st: ", row[i], n)
+                    d = row[i]/n
+                    sumList.append(d)
+                elif n%row[i] == 0 and row[i]/n > 1:
+                    #print("2nd: ", row[i], n)
+                    d = row[i] / n
+                    sumList.append(d)
+
+
+    print(sumList)
+
+    for s in sumList:
+        sumR += s
+
+    print(sumR)
+
+checksum_generator2(inDigits)
