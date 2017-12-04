@@ -5,6 +5,12 @@ sampleDigits2 = "1111"
 sampleDigits3 = "1234"
 sampleDigits4 = "91212129"
 
+part2_sampleDigits1 = "1212"
+part2_sampleDigits2 = "1221"
+part2_sampleDigits3 = "123425"
+part2_sampleDigits4 = "123123"
+part2_sampleDigits5 = "12131415"
+
 
 #in2 = list(inDigits)
 #print ("in2: ", in2)
@@ -70,4 +76,23 @@ def caIn(digList):
     print ("sum: ", sumR)
 
 
-caIn(sampleDigits4)
+#caIn(inDigits)
+
+
+def caIn2(digList):
+    length = int(len(digList)/2)
+    sumList = []
+    sumR = 0
+
+    for x in range(length):
+        if digList[x] == digList[x+length]:
+            sumList.append(digList[x])
+            sumList.append(digList[x+length])
+            #print (digList[x], " ", digList[x+length])
+
+    for s in sumList:
+        sumR += int(s)
+
+    print(sumR)
+
+caIn2(inDigits)
