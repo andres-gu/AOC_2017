@@ -9,21 +9,6 @@ sampleDigits4 = "91212129"
 #in2 = list(inDigits)
 #print ("in2: ", in2)
 
-
-def captchaInverter(digList):
-    global pair_counter, indexer, xdigit
-    xdigit = []
-    indexer = 0
-    pair_counter = 0
-
-
-    while pair_counter < 2:
-      xdigit.append(digList[indexer])
-      indexer += 1
-    pair_counter += 1
-    print(indexer)
-    print (xdigit)
-
 def looper(lst):
     x = list(lst)
     x.append(lst[0])
@@ -31,48 +16,49 @@ def looper(lst):
 
 def caIn(digList):
     iList = looper(digList)
-    print('ilist: ', iList)
+    print('iList: ', iList)
     counter = 0
     compList = []
     sumList = []
     sumR = 0
     test = True
 
-    for d in digList:
+    for d in iList:
         counter += 1
-        print(compList)
-        print (d)
+        print(compList, d)
 
         if len(compList) == 0:
+            print("is empty")
             compList.append(d)
-            print("is empty1")
-            test = True
+
         elif d == compList[-1]:
-            print("is equal1")
-            if counter == len(digList):
+            print("is equal - append comp")
+            if counter == len(iList):
                 print("last")
-                test = True
                 compList.append(d)
                 #sumList.append(d)
-
-            else:
                 test = True
+            else:
                 compList.append(d)
+                test = True
         elif d != compList[-1] and len(compList) <= 1:
-            print("is no equal and delete")
+            print("is not equal - append comp")
             compList = []
             compList.append(d)
             test = False
         elif d != compList[-1] and len(compList) > 1:
-            for i in range(len(compList)):
+            print("not equal - empty comp")
+            for i in range(1,len(compList)):
                 print(i)
                 sumList.append(compList[i])
-            print("is no equal and append")
             compList = []
+            compList.append(d)
+            test = False
 
-    print (test)
-    if len(compList) > 0 and test == True:
-        for x in range(len(compList)):
+
+    print (len(iList),counter, test)
+    if len(compList) > 1 and test == True:
+        for x in range(1, len(compList)):
             sumList.append(compList[x])
 
 
@@ -85,31 +71,3 @@ def caIn(digList):
 
 
 caIn(sampleDigits4)
-
-def cI(iList):
-    iListD = list(iList)
-
-    print (iListD)
-    compList = []
-    sumList = []
-    sum = 0
-
-    for x in iListD:
-        if compList == []:
-            compList.append(x)
-        elif x == compList[-1]:
-            compList.append(x)
-        elif x != compList[-1] and len(compList) > 1:
-            sumList.append(compList[-1])
-            compList = []
-            compList.append(x)
-
-    for y in sumList:
-        sum += int(y)
-
-    print ("compList: ", compList)
-    print ("sumList: ", sumList)
-    print ("sum: ", sum)
-
-
-#cI(sampleDigits)
