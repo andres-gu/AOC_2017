@@ -1,9 +1,18 @@
+## Advent of Code -- Day 3 -- Spiral Memory
+
 import itertools
+
+# given input number
 exitNum = 347991
+
+# test input numbers
 testNum = 10
+testNum2 = 63
 
+## Part 1 : Spiral-Pattern Grid + Manhattan Distance Calculation
 
-# steps
+# Spiral Grid Creation:
+# 'step' Functions to modify position coordinates (helper funcs)
 def sRight(x,y):
     return x+1, y
 def sUp(x,y):
@@ -12,18 +21,24 @@ def sLeft(x,y):
     return x-1, y
 def sDown(x,y):
     return x, y-1
+
+# List of 'steps' functions, later to be iterated through w/ itertools.cycle
 steps = [sRight, sUp, sLeft, sDown]
 
+# Function to create grid (main func)
 def gridMk(eStop):
+    # Iteration of 'steps' list.
     stepsR = itertools.cycle(steps)
     x = 1
     loc = 0,0
     tx = 1
 
+    # access port / starting point creation:
     yield x, loc
-    print("x: ", x,"loc: ", loc)
+    #print("x: ", x,"loc: ", loc)
 
     while True:
+        # range(2): every 2 movements, the steps need to increase by 1
         for t in range(2):
             step = next(stepsR)
             for r in range(tx):
@@ -32,7 +47,6 @@ def gridMk(eStop):
                 loc = step(loc[0],loc[1])
                 x += 1
                 yield x, loc
-
         tx += 1
 
 
@@ -42,36 +56,9 @@ def gridMk(eStop):
 # print (sumR)
 
 
-def gridCalc(eStop):
-    stepsR = itertools.cycle(steps)
-    x = 1
-    loc = 0,0
-    tx = 1
+## Part 2 : Spiral-Pattern value addition
 
-    yield x, loc
-    #print("x: ", x,"loc: ", loc)
-    while True:
-        for t in range(2):
-            step = next(stepsR)
-            for r in range(tx):
-                if x >= eStop:
-                    return
-                loc = step(loc[0],loc[1])
-                x += 1
-                yield x, loc
-        tx += 1
-
-
-
-
-gc = list(gridCalc(testNum))
-spiralDict = {}
-for n in range(len(gc)):
-    spiralDict[gc[n][1]] = gc[n][0]
-print("SpiralDict: ", spiralDict)
-
-
-
+# 8 functions to map cells around square (helper funcs)
 def c1(x,y):
     return x-1, y+1
 def c2(x,y):
@@ -88,68 +75,31 @@ def c7(x,y):
     return x-1, y-1
 def c8(x,y):
     return x-1, y
-
+# list to be cycled through
 cs = [c1, c2, c3, c4, c5, c6, c7, c8]
 
-def nStruct(lst):
-    nStructLst = []
-    for item in range(len(lst)):
-        nStructLst.append((0,lst[item][1]))
-    print(nStructLst)
-
+# adjacent squares Sum Function (main func)
 def calcG(lst):
-    struct = lst
-    print(struct)
-    pNums = 8
-    counter = 0
+    struct = lst #list to be used as a template for new dictionary
+    pNums = 8 #number of adjacent cells
     cs_ = itertools.cycle(cs)
-    newStruct = []
-    newDict = {(0,0):1}
+    newDict = {(0,0):1} #new dictionary w/ first cell initialized
 
-
-
-    for s in struct:
-        #print(s)
+    for s in range(1,len(struct)):
         addit = 0
+        x = struct[s][1][0]
+        y = struct[s][1][1]
         for i in range(pNums):
             c = next(cs_)
-            x = struct[counter][1][0]
-            y = struct[counter][1][1]
             loc = c(x,y)
-            if loc not in spiralDict:
+            if loc not in newDict:
                 addit += 0
-            elif spiralDict[loc] <= s[0]:
-                print("yep", spiralDict[loc])
-                addit += spiralDict[loc]
+            else:
+                addit += newDict[loc]
 
-            print("s:", s,"|| i: ", i,"|| x: ", x, "|| y: ", y, "|| loc: ", loc)
-        print(addit)
-        counter += 1
+        newDict[(x,y)] = addit
+        print("+++ addit: ", addit, "|| newDict: ", newDict)
 
-nStruct(gc)
+
+gc = list(gridMk(testNum2)) #list needed for calcG()
 calcG(gc)
-
-# def calcGrid(n):
-#
-#     struct = spiralDict
-#     struct[(0,0)] = 1
-#     print ("struct", struct)
-#
-#     i = 2
-#     print("s-i ",struct[i])
-#     while True:
-#         x,y = struct[i]
-#         t = 0
-#         for rx in range(-1, 2):
-#             for ry in range(-1, 2):
-#                 rc = (x + rx, y + ry)
-#                 if rc in struct:
-#                     t += struct[rc]
-#         if t > n:
-#             return t
-#         struct[(x,y)] = t
-#         i += 1
-#
-#         print("struct ", struct)
-#
-# calcGrid(testNum)
