@@ -11,50 +11,42 @@ def reallocate(bnk):
     cycles = 0
     state = True
     bank = bnk
-    max_num = (sorted(bnk))[-1]
-    max_index = bnk.index(max_num)
 
-    #while state:
-
-
-    print("max:", max_num, "|| index: ", max_index)
-
-    bank[max_index] = 0
-
-    index = (max_index + 1)
-    numb = max_num
-    print("bank:", bank, "|| numb: ", numb, "|| index: ", index)
-
-    for x in range(max_num):
-        if index < (len(bank)) and numb <= max_num and numb >= 0:
-            bank[index] += 1
-            index += 1
-            numb -= 1
-        else:
-            index = 0
-            bank[index] += 1
-            index += 1
-            numb -= 1
-            print(".over")
-
-        # for b in range(len(bank)):
-        #     if b == idx:
-        #         bank[b] = mx % (len(bank) - 1)
-        #     else:
-        #         bank[b] += dis
-
+    while state:
         cycles += 1
-        print("Bank: ", bank, "|| Cycle: ", cycles)
+        max_num = (sorted(bnk))[-1]
+        max_index = bnk.index(max_num)
+        print("max:", max_num, "|| index: ", max_index)
+        bank[max_index] = 0
 
-    x = "".join(map(str, bank))
-    if x not in bank_comp:
-        bank_comp.append(x)
-    elif x in bank_comp:
-        state = False
-        print("false")
+        index = (max_index + 1)
+        numb = max_num
+        print("bank:", bank, "|| numb: ", numb, "|| index: ", index)
 
-    print("BankComp :", bank_comp)
+        for x in range(max_num):
+            if index < (len(bank)) and numb <= max_num and numb >= 0:
+                bank[index] += 1
+                index += 1
+                numb -= 1
+            else:
+                index = 0
+                bank[index] += 1
+                index += 1
+                numb -= 1
+                print(".over")
+
+            print("Bank: ", bank, "|| Cycle: ", cycles)
 
 
-reallocate(sample_banks)
+        x = "".join(map(str, bank))
+        if x not in bank_comp:
+            bank_comp.append(x)
+        elif x in bank_comp:
+            state = False
+            print("false")
+
+    print("BankComp :", bank_comp, "|| Cycles: ", cycles)
+
+
+reallocate(banks)
 
